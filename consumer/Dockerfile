@@ -11,20 +11,7 @@ COPY . .
 
 RUN yarn build
 
-# FROM node:slim
-
-# ENV NODE_ENV production
-
-# USER node
-
-# WORKDIR /usr/src/app
-
-# COPY package.json yarn.lock ./
-
-# RUN yarn install --production --frozen-lockfile
-
-# COPY /usr/src/app/dist ./dist
-
 EXPOSE 8081
 
-CMD [ "node", "dist/index.js" ]
+# CMD [ "node", "dist/index.js" ]
+CMD [ "yarn", "dev" ]

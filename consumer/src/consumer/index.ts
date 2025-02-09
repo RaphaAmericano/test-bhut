@@ -1,0 +1,1 @@
+export * as consume from "./consume"

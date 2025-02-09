@@ -7,29 +7,47 @@ services:
       - "3000:3000"
     environment:
       - PORT=3000
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      # - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
       - MONGODB_URL=mongodb://mongodb:27017/car_app_db
     depends_on:
       - rabbitmq
       - mongodb
-
+    networks:
+      - system_network
+    volumes:
+      - ./api:/usr/src/app  # Mapeia o diretório ./app do host para /usr/src/app no container
+      - /usr/src/app/node_modules
+      - /usr/src/app/dist
   consumer:
     build: ./consumer
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
-      - RABBITMQ_URL=amqp://rabbitmq:5672
+      # - RABBITMQ_URL=amqp://rabbitmq:5672
+      - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
       - MONGODB_URL=mongodb://mongodb:27017/car_app_db
     depends_on:
       - rabbitmq
       - mongodb
-
+    networks:
+      - system_network
+    volumes:
+      - ./consumer:/usr/src/app  # Mapeia o diretório ./app do host para /usr/src/app no container
+      - /usr/src/app/node_modules
+      - /usr/src/app/dist
+      
   rabbitmq:
     image: rabbitmq:3.9-management
     ports:
       - "5672:5672"
       - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - system_network
 
   mongodb:
     image: mongo:latest
@@ -37,6 +55,12 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-
+    networks:
+      - system_network
+      
 volumes:
   mongodb_data:
+
+networks:
+  system_network:
+    driver: bridge

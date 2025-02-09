@@ -1,6 +1,29 @@
 version: "3.8"
 
 services:
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_INITDB_DATABASE=car_app_db
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - system_network
+
+  rabbitmq:
+    image: rabbitmq:3.9-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=admin
+    networks:
+      - system_network
   api:
     build: ./api
     ports:
@@ -9,7 +32,7 @@ services:
       - PORT=3000
       # - RABBITMQ_URL=amqp://rabbitmq:5672
       - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
-      - MONGODB_URL=mongodb://mongodb:27017/car_app_db
+      - MONGODB_URL=mongodb://root:password@mongodb:27017/car_app_db?authSource=admin
     depends_on:
       - rabbitmq
       - mongodb
@@ -27,36 +50,17 @@ services:
       - PORT=3001
       # - RABBITMQ_URL=amqp://rabbitmq:5672
       - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
-      - MONGODB_URL=mongodb://mongodb:27017/car_app_db
+      - MONGODB_URL=mongodb://root:password@mongodb:27017/car_app_db?authSource=admin
     depends_on:
       - rabbitmq
       - mongodb
+      - api
     networks:
       - system_network
     volumes:
       - ./consumer:/usr/src/app  # Mapeia o diretório ./app do host para /usr/src/app no container
       - /usr/src/app/node_modules
       - /usr/src/app/dist
-      
-  rabbitmq:
-    image: rabbitmq:3.9-management
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
-    networks:
-      - system_network
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - system_network
       
 volumes:
   mongodb_data:

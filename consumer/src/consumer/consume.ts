@@ -1,15 +1,16 @@
 import RabbitMQServer from "./rabbitmq.server"
+import { database_connection } from "../database"
+import { LogsService } from "../service"
 
-async function consumeMessages(queue:string){
-
-    const server = new RabbitMQServer(process.env.RABBITMQ_URL!)
-    await server.start()
-    const queueExists = await server.checkQueueExists(queue)
-    console.log(queueExists)
-    if(queueExists){
-        await server.consume('car', (message) => console.log(message.content.toString()))
-    } 
-    throw new Error(`Queue ${queue} does not exists`)
+async function consumeMessages(server:RabbitMQServer, queue:string){
+    await server.consume('logs', async (message) => {
+        const parse_message = message.content.toString()
+        console.log("parse_message: ",parse_message)
+        await database_connection.connect()
+        const result = await LogsService.createLog({ car_id: "0e8352d9-467a-4cb8-aabf-cc6436df41ea"})
+        console.log("result: ", result)
+        }
+    )
 }
 
 export { consumeMessages }

@@ -8,8 +8,8 @@ async function postCar(req:Request, res: Response): Promise<void>{
         preco: 49999.99,
         anoFabricacao: 2016
     })
-    console.log(message)
-    publish.publishMessage('car', message)
+    
+    publish.publishMessage('logs', message)
     res.status(200).json({message: 'POST Car'}) 
 }
 

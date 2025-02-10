@@ -5,7 +5,7 @@ import logsRouter from "./logs"
 
 const router = Router()
 router.get("/", (req, res) => {
-    res.status(200).json({ message: true })
+    res.status(200).json({ message: "API Online" })
 })
 router.use('/car', authMiddleware, carRouter)
 router.use('/logs', authMiddleware, logsRouter)

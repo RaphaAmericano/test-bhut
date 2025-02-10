@@ -17,7 +17,21 @@ async function validatePostCarRequestMiddleware(
 }
 
 
-
+async function validateGetCarRequestMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> {
+  const { query } = req
+  const validate = carValidations.validateGetCarQueryRequest(query)
+  const { success, error, data } = validate
+  if(!success) {
+      res.status(400).json({ message: error })
+      return
+  }
+  req.query = data 
+  next()
+}
 
 async function validateGetLogsRequestMiddleware(
     req: Request,
@@ -37,5 +51,6 @@ async function validateGetLogsRequestMiddleware(
 
 export {
     validatePostCarRequestMiddleware,
+    validateGetCarRequestMiddleware,
     validateGetLogsRequestMiddleware
 };

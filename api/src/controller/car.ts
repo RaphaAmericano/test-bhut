@@ -14,8 +14,9 @@ async function postCar(req:Request, res: Response, next: NextFunction): Promise<
 }
 
 async function getCar(req: Request, res: Response): Promise<void> {
-    const { headers: { authorization } } = req
-    const { status, result } = await getCarro(authorization!)
+    const { headers: { authorization }, query } = req
+
+    const { status, result } = await getCarro(authorization!, query)
     
     res.status(status).json({ result })
 }

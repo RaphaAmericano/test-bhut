@@ -4,7 +4,7 @@ import { requestMiddleware, publishMiddleware } from "../middleware"
 
 const router = Router()
 
-router.get("/", carController.getCar)
+router.get("/", requestMiddleware.validateGetLogsRequestMiddleware, carController.getCar)
 router.post("/",requestMiddleware.validatePostCarRequestMiddleware,  carController.postCar, publishMiddleware.publishCarLogMiddleware)
 
 

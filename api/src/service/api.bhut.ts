@@ -1,4 +1,5 @@
 import { PromiseHandler } from "../utils/promise.handler"
+import { GetCarQueryParamsRequestType } from "../validations/car"
 import service from "./http.service"
 
 type BhutAuthResponse = {
@@ -24,16 +25,17 @@ async function getAuthenticationToken(): Promise<{ status: number, result: BhutA
     return { status: 200, result:{ ...data } }
 }
 
-async function getCarro(bearer:string): Promise<{ status: number, result: any }>{
+async function getCarro(bearer:string, query?:GetCarQueryParamsRequestType): Promise<{ status: number, result: any }>{
     service.defaults.headers.common['Authorization'] = bearer
-    const promise_request = service.get('/carro')
+    const promise_request = service.get('/carro', {
+        params: query
+    })
     const { data, error } = await PromiseHandler.wrapPromise(promise_request)
     if(error){
         const { status, response } = error
         const { data } = response
         return { status, result: data  }
     }
-
     return { status: 200, result:{ ...data } }
 }
 

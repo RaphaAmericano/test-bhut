@@ -9,16 +9,19 @@ type BhutAuthResponse = {
 }
 
 async function getAuthenticationToken(): Promise<{ status: number, result: BhutAuthResponse | string }>{
-    const { data, error } = await PromiseHandler.wrapPromise(service.post('/autenticacao/token'))
-    if(error){
-        
+    const promise_request = service.post('/autenticacao/token', {
+        login: process.env.API_BHUT_USERNAME,
+        senha: process.env.API_BHUT_PASSWORD
+    })
+    const { data, error } = await PromiseHandler.wrapPromise(promise_request)
+    if(error){    
         const { status, response } = error
         const { data: { errors } } = response
         const message = errors.map(( { code, message }: { code: string, message: string }) => message ).join('.')
         return { status, result: message  }
     }
-
-    return { status: data.status!, result: data.result }
+    
+    return { status: 200, result:{ ...data } }
 }
 
 export {

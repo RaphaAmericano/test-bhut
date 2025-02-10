@@ -8,9 +8,11 @@ export default class RabbitMQServer {
     constructor(private uri: string ){}
 
     async start(): Promise<void> {
+
+        
         this.connection = await connect(this.uri)
         this.channel = await this.connection.createChannel()
-
+        // TODO: Ajustar uma retentativa
         console.log("Conectado ao RabbitMQ")
 
         const queueName = 'logs-queue'

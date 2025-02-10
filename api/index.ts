@@ -7,8 +7,7 @@ const rbmq_url = process.env.RABBITMQ_URL!
 server.listen(port, async () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
   await database_connection.connect()
-  const rbmq = new RabbitMQServer("amqp://admin:admin@rabbitmq:5672")
+  const rbmq = new RabbitMQServer(rbmq_url)
   await rbmq.start()
-  console.log(rbmq)
   console.log(`[server]: Server is connected to RabbitMQ at ${rbmq_url}`);
 });

@@ -1,1 +1,1 @@
-import * as logsWebhook from "./logs"
+export * as logsWebhook from "./logs"

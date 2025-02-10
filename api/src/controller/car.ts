@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { publish } from "../publisher";
 import { getCarro, postCarro } from "../service/api.bhut";
 
 async function postCar(req:Request, res: Response, next: NextFunction): Promise<void> {

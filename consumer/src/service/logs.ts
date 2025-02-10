@@ -7,8 +7,4 @@ async function createLog(payload:LogCreateInput){
     return logDoc
 }
 
-async function getLog(id:string){
-    return await Log.findById(id)
-}
-
-export { createLog, getLog } 
+export { createLog } 

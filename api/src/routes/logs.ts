@@ -1,9 +1,7 @@
 import { Router } from "express"
-
+import { logsController } from "../controller"
 const router = Router()
 
-router.get("/", (req, res) => {
-    res.status(200).json({ message: true })
-})
+router.get("/", logsController.getLogs)
 
 export default router

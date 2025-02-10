@@ -9,7 +9,7 @@ async function postCar(req:Request, res: Response): Promise<void>{
         anoFabricacao: 2016
     })
     
-    publish.publishMessage('logs', message)
+    publish.publishMessage('logs-queue', message)
     res.status(200).json({message: 'POST Car'}) 
 }
 

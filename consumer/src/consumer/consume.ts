@@ -3,7 +3,7 @@ import { database_connection } from "../database"
 import { LogsService } from "../service"
 
 async function consumeMessages(server:RabbitMQServer, queue:string){
-    await server.consume('logs', async (message) => {
+    await server.consume('logs-queue', async (message) => {
         const parse_message = message.content.toString()
         console.log("parse_message: ",parse_message)
         await database_connection.connect()

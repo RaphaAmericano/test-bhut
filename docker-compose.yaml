@@ -15,7 +15,10 @@ services:
       - system_network
 
   rabbitmq:
-    image: rabbitmq:3.9-management
+    # image: rabbitmq:3.9-management
+    build:
+      context: ./config/rabbitmq
+      dockerfile: Dockerfile
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -24,6 +27,20 @@ services:
       - RABBITMQ_DEFAULT_PASS=admin
     networks:
       - system_network
+    # volumes:
+    #   - ./config/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+    #   - ./config/rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.config
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+      # - ./config/rabbitmq/init.sh:/init.sh
+      # - ./config/rabbitmq/wait-for-it.sh:/wait-for-it.sh
+    # command: >
+    #   bash -c "rabbitmq-server start & ./wait-for-it.sh localhost:5672 -- /init.sh"
+
   api:
     build: ./api
     ports:

@@ -10,6 +10,19 @@ export default class RabbitMQServer {
     async start(): Promise<void> {
         this.connection = await connect(this.uri)
         this.channel = await this.connection.createChannel()
+
+        console.log("Conectado ao RabbitMQ")
+
+        const queueName = 'logs-queue'
+        const queueExists = await this.checkQueueExists(queueName)
+
+        if(!queueExists){
+            console.log(`Fila '${queueName}' não encontrada. Criando...`);
+            await this.createQueue(queueName)
+        } else {
+            console.log(`Fila '${queueName}' já existe.`);
+        }
+
     }
 
     async finish(): Promise<void>{
@@ -54,6 +67,7 @@ export default class RabbitMQServer {
         }
         try {
             this.channel.sendToQueue(queue, Buffer.from(message));
+            // this.channel.publish('main_exchange', 'routing_key_1', Buffer.from(message));
             return true;
         } catch (error) {
             console.error("Erro ao publicar mensagem:", error);
@@ -61,15 +75,4 @@ export default class RabbitMQServer {
         }
     }
 
-    async publishExchange(exchange:string, routing_key: string, message:string):Promise<boolean> {
-        if (!this.channel) {
-            throw new Error("Canal RabbitMQ não inicializado. Chame start() primeiro.");
-        }
-        try {
-            return this.channel.publish(exchange, routing_key, Buffer.from(message));
-        } catch (error) {
-            console.error("Erro ao publicar mensagem no exchange:", error);
-            return false;
-        }
-    }
 }

@@ -10,6 +10,19 @@ export default class RabbitMQServer {
     async start(): Promise<void> {
         this.connection = await connect(this.uri)
         this.channel = await this.connection.createChannel()
+
+        console.log("Conectado ao RabbitMQ")
+
+        const queueName = 'logs-queue'
+        const queueExists = await this.checkQueueExists(queueName)
+        console.log('queueExists', queueExists)
+        if(!queueExists){
+            console.log(`Fila '${queueName}' não encontrada. Criando...`);
+            await this.createQueue(queueName)
+        } else {
+            console.log(`Fila '${queueName}' já existe.`);
+        }
+
     }
 
     async finish(): Promise<void>{

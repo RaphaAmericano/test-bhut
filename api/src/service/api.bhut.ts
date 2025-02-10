@@ -24,7 +24,38 @@ async function getAuthenticationToken(): Promise<{ status: number, result: BhutA
     return { status: 200, result:{ ...data } }
 }
 
+async function getCarro(bearer:string): Promise<{ status: number, result: any }>{
+    service.defaults.headers.common['Authorization'] = bearer
+    const promise_request = service.get('/carro')
+    const { data, error } = await PromiseHandler.wrapPromise(promise_request)
+    if(error){
+        const { status, response } = error
+        const { data } = response
+        return { status, result: data  }
+    }
+
+    return { status: 200, result:{ ...data } }
+}
+
+async function postCarro(bearer:string, payload: object): Promise<{ status: number, result: any }>{
+    service.defaults.headers.common['Authorization'] = bearer
+    const promise_request = service.post('/carro', { 
+        ...payload
+    })
+    const { data, error } = await PromiseHandler.wrapPromise(promise_request)
+    if(error){
+        const { status, response } = error
+        const { data } = response
+        return { status, result: data  }
+    }
+
+    return { status: 200, result:{ ...data } }
+}
+
+
 export {
     BhutAuthResponse,
-    getAuthenticationToken
+    getAuthenticationToken,
+    getCarro,
+    postCarro
 }

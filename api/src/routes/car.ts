@@ -1,12 +1,11 @@
 import { Router } from "express"
 import { carController } from "../controller"
+import { requestMiddleware, publishMiddleware } from "../middleware"
 
 const router = Router()
 
-router.get("/", (req, res) => {
-    res.status(200).json({ message: true })
-})
-router.post("/", carController.postCar)
+router.get("/", carController.getCar)
+router.post("/",requestMiddleware.validatePostCarRequestMiddleware,  carController.postCar, publishMiddleware.publishCarLogMiddleware)
 
 
 export default router

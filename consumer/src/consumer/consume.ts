@@ -4,11 +4,13 @@ import { LogsService } from "../service"
 
 async function consumeMessages(server:RabbitMQServer, queue:string){
     await server.consume('logs-queue', async (message) => {
-        const parse_message = message.content.toString()
-        console.log("parse_message: ",parse_message)
+        const to_string_message = message.content.toString()
+        const parse_message = JSON.parse(to_string_message)
+        
         await database_connection.connect()
-        const result = await LogsService.createLog({ car_id: "0e8352d9-467a-4cb8-aabf-cc6436df41ea"})
+        const result = await LogsService.createLog(parse_message)
         console.log("result: ", result)
+        
         }
     )
 }

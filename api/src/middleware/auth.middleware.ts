@@ -2,14 +2,12 @@ import { NextFunction, Request, Response } from "express";
 import { BhutAuthResponse, getAuthenticationToken } from "../service/api.bhut";
 
 async function authMiddleware(req: Request, res: Response, next: NextFunction){
-    
-    
     const { status, result } = await getAuthenticationToken()
-    console.log(status, result)
     if(status === 200 ) {
         const { accessToken } = result as BhutAuthResponse
         req.headers.authorization = `Bearer ${accessToken}`
         next()
+        return
     }
     res.status(status).json({ message: result })
 }

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { carValidations } from "../validations"
+import { carValidations, logsValidations } from "../validations"
 
 async function validatePostCarRequestMiddleware(
   req: Request,
@@ -16,6 +16,26 @@ async function validatePostCarRequestMiddleware(
     next()
 }
 
+
+
+
+async function validateGetLogsRequestMiddleware(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): Promise<void> {
+    const { query } = req
+    const validate = logsValidations.validateGetLogsQueryRequest(query)
+    const { success, error, data } = validate
+    if(!success){
+        res.status(400).json({ message: error })
+        return
+    }
+    req.query = data    
+    next()
+  }
+
 export {
-    validatePostCarRequestMiddleware
+    validatePostCarRequestMiddleware,
+    validateGetLogsRequestMiddleware
 };

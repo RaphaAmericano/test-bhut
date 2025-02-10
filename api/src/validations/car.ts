@@ -25,7 +25,38 @@ const postRequest = z.object({
   }
 )
 
+const getCarQueryParamsRequest = z.object({
+    ativo: z.preprocess(
+        (val) => {
+            if(typeof val === 'string' && (val === 'true' || val === 'false') ) {
+                return val === 'true'
+            }
+            return val
+        },
+        z.boolean({
+            invalid_type_error: "ativo deve ser um booleano",
+            description: "Dado ativo"
+        }).optional(),
+    ),
+    pagina: z.preprocess(
+        (val) => (typeof val === 'string' ? parseInt(val, 10) : val),
+        z.number({
+            invalid_type_error: "Página deve ser um número no formato de string.",
+            description: "Número da paǵina da busca."
+        }).optional()
+    ),
+    tamanhoPagina: z.preprocess(
+        (val) => (typeof val === 'string' ? parseInt(val, 10) : val),
+        z.number({
+            invalid_type_error: "Tamanho da página deve ser um número no formato de string.",
+            description: "Número de items retornados por página."
+        }).optional()
+    )
+  }
+)
+
 type PostRequest = z.infer<typeof postRequest>
+type GetCarQueryParamsRequestType = z.infer<typeof getCarQueryParamsRequest>
 
 function validatePostCarRequest(body:any){
     const result = postRequest.safeParse(body)
@@ -34,7 +65,16 @@ function validatePostCarRequest(body:any){
     return { success: result.success, error: error || null, data }
 }
 
+function validateGetCarQueryRequest(query:any){
+    const result = getCarQueryParamsRequest.safeParse(query)
+    const data = result.data ?? query
+    const error = result.success ? null : formatErrorString(result.error)
+    return { success: result.success, error: error || null, data }
+}
+
 export {
     PostRequest,
-    validatePostCarRequest
+    GetCarQueryParamsRequestType,
+    validatePostCarRequest,
+    validateGetCarQueryRequest
 }

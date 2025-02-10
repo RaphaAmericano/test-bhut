@@ -71,6 +71,7 @@ services:
       # - RABBITMQ_URL=amqp://rabbitmq:5672
       - RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672
       - MONGODB_URL=mongodb://root:password@mongodb:27017/car_app_db?authSource=admin
+      - WEBHOOK_URL=${WEBHOOK_URL}
     depends_on:
       - rabbitmq
       - mongodb

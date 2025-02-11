@@ -65,7 +65,7 @@ function validatePostCarRequest(body:any){
     return { success: result.success, error: error || null, data }
 }
 
-function validateGetCarQueryRequest(query:any){
+function validateGetCarQueryRequest(query:any): ValidationResponse<any>{
     const result = getCarQueryParamsRequest.safeParse(query)
     const data = result.data ?? query
     const error = result.success ? null : formatErrorString(result.error)

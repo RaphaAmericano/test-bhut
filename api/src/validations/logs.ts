@@ -21,7 +21,7 @@ const getLogsQueryParamsRequest = z.object({
 
 type GetLogsQueryParamsRequestType = z.infer<typeof getLogsQueryParamsRequest>
 
-function validateGetLogsQueryRequest(query:any){
+function validateGetLogsQueryRequest(query:any):ValidationResponse<any> {
     const result = getLogsQueryParamsRequest.safeParse(query)
     const data = result.data ?? query
     const error = result.success ? null : formatErrorString(result.error)

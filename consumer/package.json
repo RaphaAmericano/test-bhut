@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coveage": "jest --coverage",
-    "test:watch": "jest --watchAll --verbose --setupFiles dotenv/config",
+    "test:watch": "RABBITMQ_URL=amqp://admin:admin@rabbitmq:5672 jest --watchAll --verbose --setupFiles dotenv/config",
     "start": "node dist/index.js",
     "dev": "nodemon index.ts",
     "build": "npx tsc"

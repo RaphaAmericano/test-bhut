@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:coveage": "jest --coverage",
+    "test:watch": "jest --watchAll --verbose --setupFiles dotenv/config",
     "start": "node dist/index.js",
     "dev": "nodemon index.ts",
     "build": "npx tsc"
@@ -23,10 +25,15 @@
     "@types/amqplib": "^0.10.6",
     "@types/axios": "^0.14.4",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^22.13.1",
+    "@types/supertest": "^6.0.2",
     "concurrently": "^9.1.2",
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
   }

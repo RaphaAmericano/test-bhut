@@ -20,7 +20,5 @@ server.listen(port, async () => {
     console.error('Erro ao conectar ao RabbitMQ:', error);
     process.exit(1); // Encerra o servidor se não conseguir conectar
   }
-
-
   console.log(`[server]: Server is connected to RabbitMQ at ${rbmq_url}`);
 });

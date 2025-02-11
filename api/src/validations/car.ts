@@ -1,5 +1,6 @@
 import { z } from "zod"
 import { formatErrorString } from "../utils/zod"
+import { ValidationResponse } from "../types/validations"
 
 const postRequest = z.object({
     nome: z.string({

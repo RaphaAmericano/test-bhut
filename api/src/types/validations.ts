@@ -3,3 +3,7 @@ type ValidationResponse<T> = {
     data: T,
     error: unknown
 }
+
+export {
+    ValidationResponse
+}

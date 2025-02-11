@@ -23,4 +23,11 @@ describe('car validations', () => {
         expect(validate.success).toBe(false)
     })
 
+    it('should return success false when try float at anoFabricacao', () => {
+        const new_body = { ...body, anoFabricacao: 2016.5}
+        expect(new_body).toHaveProperty('marca')
+        const validate = validatePostCarRequest(new_body)
+        expect(validate.success).toBe(false)
+    })
+
 })

@@ -22,7 +22,7 @@ const postRequest = z.object({
         required_error: "Ano de fabricação é obrigatório",
         invalid_type_error: "Ano de fabricação deve ser um número",
         description: "Ano de fabricação do carro"
-    })
+    }).int('Abi de fabriação deve ser um número inteiro')
   }
 )
 

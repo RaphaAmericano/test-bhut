@@ -4,8 +4,6 @@
 O sistema é composto por dois serviços, um banco MongoDB e uma mensageria RabbitMQ. 
 
 
-
-
 ## Executando o projeto
 
 Para fazer o deploy, crie um arquivo `.env` copiando ou renomeando `example.env` presente na raiz do projeto.
@@ -56,4 +54,10 @@ docker compose up -d
 ```http
   get /api/logs
 ```
+
+## Diagrama
+
+Diagrama do projeto
+
+![Diagrama](docs/diagram-api-bhut.png)
 

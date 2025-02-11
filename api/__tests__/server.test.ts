@@ -6,9 +6,4 @@ describe('server.ts tests', () => {
         expect(res.text).toEqual("Express + TypeScript Server")
     })
 
-    it.skip('should return list of cars', async () => {
-        const res = await request(server).get('/car')
-        expect(res.body).toBe({ result: [] })
-    })
-
 })

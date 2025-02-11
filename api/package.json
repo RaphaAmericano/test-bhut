@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:coveage": "jest --coverage",
-    "test:watch": "jest --watchAll --verbose",
+    "test:watch": "jest --watchAll --verbose --setupFiles dotenv/config",
     "start": "node dist/index.js",
     "dev": "nodemon index.ts",
     "build": "npx tsc"

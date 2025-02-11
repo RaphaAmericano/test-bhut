@@ -15,8 +15,10 @@ async function getAuthenticationToken(): Promise<{ status: number, result: BhutA
         senha: process.env.API_BHUT_PASSWORD
     })
     const { data, error } = await PromiseHandler.wrapPromise(promise_request)
+    console.log(error)
     if(error){    
         const { status, response } = error
+        
         const { data: { errors } } = response
         const message = errors.map(( { code, message }: { code: string, message: string }) => message ).join('.')
         return { status, result: message  }

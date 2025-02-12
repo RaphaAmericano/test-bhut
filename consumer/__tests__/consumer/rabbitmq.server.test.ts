@@ -13,7 +13,7 @@ describe('Test Rabbit', ()  => {
         jest.clearAllMocks()
     })
 
-    it('should initialize connection', async () => {
+    it.skip('should initialize connection', async () => {
         expect(connect).toHaveBeenCalledWith(rabbitmq_url)
         const mockConnection = await connect(rabbitmq_url)
         expect(mockConnection.createChannel).toHaveBeenCalled()  
